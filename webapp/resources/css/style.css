@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=B612+Mono&display=swap');
+*{
+    font-family: 'B612 Mono', monospace;
+}
+body{
+    display: flex;
+    flex-direction: column!important;
+    justify-content: center;
+    align-items: center;
+    margin-top: 150px;
+    height: 200px;
+}
+a{
+    text-decoration: none;
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+    background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' stroke='%23333' stroke-width='2' stroke-dasharray='200%2c 28' stroke-dashoffset='26' stroke-linecap='square'/%3e%3c/svg%3e");
+    color: black;
+}
+a:hover{
+    animation: border-red .3s steps(1,end);
+}
+.ref-wrap{
+    margin-top: 20px;
+}
+.ref-wrap:hover{
+    animation: border-blue .3s steps(1,end);
+}
+@keyframes border-red {
+    from{
+        box-shadow: 12px 3px 0px red;  
+    }
+    25%{
+        box-shadow: -12px 4px 0px red; 
+    }
+    50%{
+        box-shadow: 3px -3px 0px red;
+    }
+    75%{
+        box-shadow: -3px -3px 0px red;
+    }
+    to{
+        box-shadow: 0px 0px 0px white;
+    }
+}
+@keyframes border-blue{
+    from{
+        box-shadow: -10px -4px 0px #6ff;  
+    }
+    25%{
+        box-shadow: 12px -7px 0px #6ff; 
+    }
+    50%{
+        box-shadow: -6px 6px 0px #6ff;
+    }
+    75%{
+        box-shadow: 6px 6px 0px #6ff;
+    }
+    to{
+        box-shadow: 0px 0px 0px white;
+    }
+}
+#time{
+    display: block;
+    font-size: 50px;
+    margin: auto;
+}
+
+
+

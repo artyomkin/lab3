@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=B612+Mono&display=swap');
+a{
+    text-decoration: none;
+    color: black;
+}
+*{
+    font-family: 'B612 Mono', monospace;
+}
+body{
+    margin-top: 100px;
+}
+table{
+    width: 200px;
+    border-spacing: 0px;
+    border-collapse: collapse;
+    margin: auto;
+}
+.title{
+    margin: auto;
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+table tr, table td{
+    border: 1px solid black;
+}
+form{
+    display: flex;
+    flex-direction: column;
+}
+#coordinatesForm{
+    width: 300px;
+    height: 300px;
+}
+.ref-wrap{
+    display: flex;
+    flex-direction: column;
+}
+.ref-wrap a{
+    margin-left: 45px;
+}
+select{
+    width: 200px;
+    margin: auto;
+}
+input{
+    width: 200px;
+    margin: auto;
+    background: none;
+}
+.back{
+    margin: auto;
+}

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+<head>
+    <h:outputStylesheet library="css" name="style2.css"></h:outputStylesheet>
+    <h:outputStylesheet library="css">
+        .form-wrap{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .errmsg{
+            margin: auto;
+        }
+    </h:outputStylesheet>
+
+</head>
+<f:view>
+    <h:head><title>Second Page Title</title></h:head>
+
+    <h:body>
+        <div class="form-wrap">
+        <h:form id="canvasForm" class="coordinates">
+            <ui:include src="canvas.html"></ui:include>
+            <p:commandButton style="visibility: hidden" id="submitGraph" action="#{historyBean.hitDot()}">
+                <f:ajax render="history submitGraph"></f:ajax>
+            </p:commandButton>
+            <h:inputHidden id="canvasX" class="coordinate" maxlength="7" value="#{dotBean.x}" validatorMessage="x must be in range [#{dotConstraintsBean.MIN_X};#{dotConstraintsBean.MAX_X}]" required="true" requiredMessage="x is required" converterMessage="x must be a number">
+                <f:validateBean/>
+            </h:inputHidden>
+            <h:inputHidden id="canvasY" class="coordinate" maxlength="7" value="#{dotBean.y}" validatorMessage="y must be in range [#{dotConstraintsBean.MIN_Y};#{dotConstraintsBean.MAX_Y}]" required="true" requiredMessage="y is required" converterMessage="y must be a number">
+                <f:validateBean/>
+            </h:inputHidden>
+            <h:inputHidden id="canvasR" class="coordinate" maxlength="7" value="#{dotBean.r}" validatorMessage="r must be in range [#{dotConstraintsBean.MIN_R};#{dotConstraintsBean.MAX_R}]" required="true" requiredMessage="r is required" converterMessage="r must be a number">
+                <f:validateBean/>
+            </h:inputHidden>
+        </h:form>
+
+        <h:form id="coordinatesForm" class="coordinates">
+            <h:selectOneMenu id="x" value="#{dotBean.x}" validatorMessage="x must be in range [#{dotConstraintsBean.MIN_X};#{dotConstraintsBean.MAX_X}]" required="true" requiredMessage="x is required" converterMessage="x must be a number">
+                <c:forEach items="#{dotConstraintsBean.valsX}" var="i">
+                    <f:selectItem class="x-item" itemLabel="#{i}" itemValue="#{i}" />
+                    <f:validateDoubleRange minimum="#{dotConstraintsBean.MIN_X}" maximum="#{dotConstraintsBean.MAX_Y}" for="x"></f:validateDoubleRange>
+                    <f:validateBean/>
+                </c:forEach>
+            </h:selectOneMenu>
+            <h:inputText id="y" class="coordinate y" maxlength="7" value="#{dotBean.y}" validatorMessage="y must be in range (#{dotConstraintsBean.MIN_Y};#{dotConstraintsBean.MAX_Y})" required="true" requiredMessage="y is required" converterMessage="y must be a number">
+                <f:validator validatorId="coordinatesValidator"/>
+            </h:inputText>
+            <h:message class="errmsg" for="y" id="errmsg"></h:message>
+            <div class="ref-wrap">
+            <c:forEach items="#{dotConstraintsBean.valsR}" var="i">
+                <h:commandLink value="#{i}" action="#{dotBean.setR(i)}" onclick="clear(); drawGraph(#{i}); setR(#{i}); updateGraph()">
+                    <f:ajax execute="@form" render="@form" />
+                </h:commandLink>
+            </c:forEach>
+            </div>
+            <h:commandButton id="submitBtn" value="Send" action="#{historyBean.hitDot()}" update="errmsg" onclick="updateGraph();">
+                <f:ajax execute="x y" render="history errmsg submitBtn"/>
+            </h:commandButton>
+            <h:link class="back" value="Back" outcome="index"></h:link>
+        </h:form>
+        </div>
+    </h:body>
+    <div class="title"><span>x</span><span>y</span><span>r</span><span>hit</span></div>
+    <h:dataTable value="#{historyBean.dots}" var="dot" id="history" >
+        <h:column>
+            <f:facet name="x">
+                <h:outputText value="x" />
+            </f:facet>
+            <h:outputText value="#{dot.x}" />
+        </h:column>
+        <h:column>
+            <f:facet name="y">
+                <h:outputText value="y" />
+            </f:facet>
+            <h:outputText value="#{dot.y}" />
+        </h:column>
+        <h:column>
+            <f:facet name="r">
+                <h:outputText value="r" />
+            </f:facet>
+            <h:outputText value="#{dot.r}" />
+        </h:column>
+        <h:column>
+            <f:facet name="hit">
+                <h:outputText value="hit" />
+            </f:facet>
+            <h:outputText value="#{dot.hit}" />
+        </h:column>
+    </h:dataTable>
+    <script type="text/javascript" src="#{request.getContextPath()}/resources/js/Dot.js?111">
+    </script>
+    <script type="text/javascript" src="#{request.getContextPath()}/resources/js/drawGraph.js?111">
+    </script>
+    <script type="text/javascript" src="#{request.getContextPath()}/resources/js/coordinatesFormTrimmer.js?111">
+    </script>
+    <script type="text/javascript" src="#{request.getContextPath()}/resources/js/coordsDeterm.js?111">
+    </script>
+
+</f:view>
+
+</html>
