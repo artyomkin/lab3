@@ -20,7 +20,7 @@
           </dependency>
           <dependency org="com.google.code.gson" name="gson" rev="2.9.0">
           </dependency>
-          <dependency org="junit" name="junit" rev="4.12">
+          <dependency org="junit" name="junit" rev="4.13.2">
           </dependency>    
           <dependency org="org.hibernate" name="hibernate-core" rev="4.3.11.Final" conf="default">
           <exclude org="javax.transaction"/>
@@ -54,7 +54,7 @@
 	<target name="test" depends="compile">
 	    <junit printsummary="yes">
 	        <classpath>
-	            <pathelement location="${classes}"></pathelement>
+	            <pathelement location="build/classes/com/example/demo/com/example/demo"></pathelement>
 	        </classpath>
 	        <test name="TestHitChecker"></test>
 	    </junit>
