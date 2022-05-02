@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<project name="Lab3" default="build" xmlns:ivy="antlib:org.apache.ivy.ant">	
+    <property name="src" location="java/com/example/demo"/>
+    <property name="build" location="build"/>
+    <property name="classes" location="${build}/classes/com/example/demo"/>
+    <property name="junit.dir" location="C:\Users\User"/>
+    <available classname="org.apache.ivy.Main" property="ivy.installed"/> 
+
+    <target name="install-ivy" description="Install ivy" unless="ivy.installed">
+        <mkdir dir="${user.home}/.ant/lib"/>
+        <get dest="${user.home}/.ant/lib/ivy.jar" src="http://search.maven.org/remotecontent?filepath=org/apache/ivy/ivy/2.3.0/ivy-2.3.0.jar"/>
+        <fail message="Ivy has been installed. Run the build again"/>
+    </target>
+
+    <target name="compile" depends="install-ivy">
+        <ivy:cachepath pathid="compile.path">
+          <dependency org="javax" name="javaee-api" rev="6.0">
+          </dependency>
+          <dependency org="org.projectlombok" name="lombok" rev="1.18.24">
+          </dependency>
+          <dependency org="com.google.code.gson" name="gson" rev="2.9.0">
+          </dependency>
+          <dependency org="junit" name="junit" rev="4.12">
+          </dependency>    
+          <dependency org="org.hibernate" name="hibernate-core" rev="4.3.11.Final" conf="default">
+          <exclude org="javax.transaction"/>
+          </dependency>
+        </ivy:cachepath>
+        <mkdir dir="${classes}"/>
+        <javac srcdir="${src}" classpathref="compile.path" destdir="${classes}" includeantruntime="false">
+            <src path="${src}"/>
+        </javac>
+    </target>    
+    <target name="build" depends="compile">
+        <jar destfile="${build}/${ant.project.name}.jar" basedir="${classes}" excludes="Test*.class">
+	        <manifest>
+	            <attribute name="Main-Class" value="${ant.project.name}"></attribute>
+	        </manifest>
+	    </jar>
+    </target>
+	<target name="clean">
+	    <delete dir="build"></delete>
+	</target>
+	<target name="scp" depends="build">
+	    <scp
+	        file="${build}/${ant.project.name}.jar"
+	        todir="s312394@helios.cs.ifmo.ru:/home/s312394"
+	        port="2222"
+	        password=""
+	        trust="true"
+	        
+	    ></scp>
+	</target>
+	<target name="test" depends="compile">
+	    <junit printsummary="yes">
+	        <classpath>
+	            <pathelement location="${classes}"></pathelement>
+	        </classpath>
+	        <test name="TestHitChecker"></test>
+	    </junit>
+	</target>
+</project>

@@ -39,6 +39,12 @@ public class DotBean implements Serializable {
         this.r = r;
         this.isHit = hit;
     }
+    
+    public DotBean(double x, double y, double r){
+        this.x = x;
+        this.y = y;
+        this.r = r;
+    }
 
 
 }
